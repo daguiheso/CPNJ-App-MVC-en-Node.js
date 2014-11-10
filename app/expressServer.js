@@ -1,8 +1,15 @@
-var express = require('express');
+var express = require('express'),
+middlewares = require('./middlewares/admin');
 var ExpressServer = function(config){
 	config = config || {}; 
 
 	this.expressServer = express();
+
+	// middlewares
+
+	for(var i in middlewares){
+		this.expressServer.use(middlewares[i]);
+	}
 
 	this.expressServer.get('/article/save/', function(req,res,next){
 	    res.send('Hello from article save');
