@@ -1,4 +1,5 @@
 module.exports = {
 	static: require('./static'),
-	favicon: require('./favicon')
+	favicon: require('./favicon'),
+	locals: require('./locals')
 }
