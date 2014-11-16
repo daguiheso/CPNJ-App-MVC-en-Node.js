@@ -1,4 +1,5 @@
-var express = require('express'),
+var env = process.env.NODE_ENV || 'production',
+    express = require('express'),
 	swig = require('swig'),
 	middlewares = require('./middlewares/admin');
 var ExpressServer = function(config){
@@ -15,8 +16,15 @@ var ExpressServer = function(config){
 	this.expressServer.engine('html', swig.renderFile);
 	this.expressServer.set('view engine', 'html');
 	this.expressServer.set('views', __dirname + '/website/views/templates');
-	swig.setDefaults({varControls:['[[',']]']})
+	swig.setDefaults({varControls:['[[',']]']});
 
+
+	if(env == 'development'){
+		console.log('OK NO HAY CACHE');
+		//borrando cache de swig y expressServer
+		this.expressServer.set('view cache', false);
+		swig.setDefaults({cache: false,  varControls:['[[',']]']})
+	}
 
 	this.expressServer.get('/article/save/', function(req,res,next){
 		res.render('article_save',{nombre:'diego'});
